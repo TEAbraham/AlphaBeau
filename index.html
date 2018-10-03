@@ -1,39 +1,398 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="lib/chessboardjs/css/chessboard-0.3.0.css">
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Steve - Play against Steve from your browser">
+    <title> Play against Steve ! </title>
+    <link rel="stylesheet" href="css/chessboard.css" />
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-116299647-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-116299647-1');
+	</script>
+	<style>
+		.minimal {
+			background: white;
+			border: 1px solid #bbb;
+			border-radius: 3px;
+			-webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+			box-shadow: inset 0 0 1px 1px #f6f6f6;
+			color: #333;
+			font: bold 12px/1 "helvetica neue", helvetica, arial, sans-serif;
+			padding: 8px 0 9px;
+			text-align: center;
+			text-shadow: 0 1px 0 #fff;
+			width: 150px; 
+			position: relative;
+			margin: 2px;
+		}
+		.minimal:hover {
+			background: #e9e9e9;
+			-webkit-box-shadow: inset 0 0 1px 1px #eaeaea;
+			box-shadow: inset 0 0 1px 1px #eaeaea;
+			color: #222;
+			cursor: pointer; 
+		}
+		.minimal:active {
+			background: #d0d0d0;
+			-webkit-box-shadow: inset 0 0 1px 1px #e3e3e3;
+			box-shadow: inset 0 0 1px 1px #e3e3e3;
+			color: #000; 
+		}
+		a:visited {
+			color: #A74AC7;
+		}
+		a {
+			color: #4c4cff;
+		}
+		
+		#historybox {
+			border: 1px solid darkgrey;
+			padding: 5px;
+			width: 175px;
+			height: 384px;
+			margin-right: 10px;
+			float: left;
+			overflow-y: scroll;
+		}
+		#fenbox {
+			width: 400px;
+			height: 20px;
+			overflow: hidden;
+			resize: none;
+			font-size: 11px;
+		}
+	</style>
+
 </head>
+
 <body>
-<div id="board" class="board"></div>
-<div class="info">
-    Search depth:
-    <select id="search-depth">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3" selected>3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-    </select>
+    <style>
+        html {
+            background-color: rgb(50, 50, 50);
+            font-family: "helvetica";
+        }
+    </style>
+    <script type="text/javascript">
+    </script>
+    <h1 style="text-align:center; color: white"> Play against Steve </h1>
+    <div style="text-align: center;">
+    <hr/>
+        <p style="color: white"><b><span id="status" ></span></b></p>
+        <p style="color: white"><b><span id="winrate" ><i style="font-weight: normal">Steve ID will be displayed after he has played one move.</i><br /><br /></span></b></p>
+		<div id="lol" style="margin-left: auto; margin-right: auto; width: 800px; height: 400px; color:white;">
+		
+			<div id="historybox">
+				<b>Move History</b>
+				<hr />
+				<p style="color: white; text-align: left;">
+					<span id="history"></span>
+				</p>
+			</div>
+			<div id="board" style="float: left; margin-left: 5px; width: 400px"></div>
+			<div id = "controls" style="display: block; width: 198px;float: right;height:400px;">
+				<input type="button" id="startPositionBtn" class="minimal" value="Restart Game" /> 
+				<input type="button" id="flipBtn" class="minimal" value="Flip the board ↺" /><br />
+				<input type="button" id="promoteBtn" class="minimal" value="Will promote to: Queen" />
+				<input type="button" id="move1Btn" class="minimal" value="Steve: Enabled" /><br />
+				<input type="button" id="move2Btn" class="minimal" value="Force Steve Move" /><br />
+				<p style="margin-top: 10px; margin-bottom: 1px;"><b>Choose a mode:</b></p>
+				<input type="button" id="ultrafastBtn" class="minimal" value="Easy" /><br />
+				<input type="button" id="fastBtn" class="minimal" value="Normal" /><br />
+				<input type="button" id="slowBtn" class="minimal" value="Hard" /><br />
+				<input type="button" id="hardcoreBtn" class="minimal" value="Hardcore" /><br />
+				<span style="text-align: left;position: relative; left:25px;">
+				<p style="margin-top: 10px; margin-bottom: 1px;"><b>Current: <span id="curMode" style="color: white">Normal</span></b></p>
+				<p style="margin-top: 10px; margin-bottom: 1px;"><b>Nodes: <span id="playouts" style="color: white">50</span></b></p>
+				</span>
+			</div>
+		</div>
+		<textarea id="fenbox" readonly onclick="this.focus();this.select()"></textarea>
+		<div>
+        <p style="color: white">
+            <b> What are modes? </b> Modes are Steve playing at different nodes, which are similar to classical nodes in traditional chess engines. <br />
+			Easy mode is special because Steve is not doing any calculations and is playing purely by insight, just taking the board and evaluating what looks interesting. <br />
+			Other modes are just about adding nodes, thus making deeper calculations and checking tactics. <br />
+			<br />
+			<b> Tip: </b> To play as black, just flip the board and "Force Steve Move" to make him play first. <br />
+        </p>
+	<br />
+	<br />
+	<br />
+	<hr />
+	<p style="color: white">
+		This website is open-source, see the <a href="https://github.com/TEAbraham/Steve">GitHub</a>.
+	</p>	
+	</div>
 
-    <br>
-    <span>Positions evaluated: <span id="position-count"></span></span>
-    <br>
-    <span>Time: <span id="time"></span></span>
-    <br>
-    <span>Positions/s: <span id="positions-per-s"></span> </span>
-    <br>
-    <br>
-    <div id="move-history" class="move-history">
+
+        <script src="js/json3.min.js"></script>
+        <script src="js/jquery-1.10.1.min.js"></script>
+        <script src="js/chessboard.js"></script>
+		<script src="js/chess.min.js"></script>
+		<script src="rand.js"></script>
+        <!-- <script>
+			var board;
+			var game = new Chess();
+			var statusEl = $('#status');
+			var historyEl = $('#history');
+			var mv_history = "";
+			var enabled = true;
+			var playouts = 50;
+			var canMove = true;
+			var promotePiece = "q";
+			var reqMoveXhr = new XMLHttpRequest();
+			var preMove = "";
+			var thinking = false;
+			$("#fenbox").html(game.fen())
+			
+			function askMove() {
+				var askUrl = "getMove";
+				if (playouts == 400) {
+					askUrl = "getMoveSlow";
+				}
+				if (playouts == 1) {
+					askUrl = "getMoveUltra";
+				}
+				if (playouts == 2000) {
+					askUrl = "getMoveHardcore";
+				}
+				var historyStr = mv_history;
+				if (mv_history == "") {
+					historyStr = "0";
+				}
+				$("#status").html("Steve is thinking...");
+				var toSend = askUrl + "?pgn=" + historyStr;
+				console.log(toSend);
+				var move = reqMoveXhr.open("GET", toSend, true);
+				reqMoveXhr.timeout = 10000;
+				reqMoveXhr.send(null);
+			}
+			
+			reqMoveXhr.onload = function (e) {
+				if (reqMoveXhr.readyState === 4) {
+					if (reqMoveXhr.status === 200) {
+						board.draggable = false;
+						console.log("Received move from computa: " + reqMoveXhr.responseText);
+						var move = reqMoveXhr.responseText.split(";")[0];
+						var wr = "";
+						if(move.length > 1) {
+							wr = reqMoveXhr.responseText.split(";")[1];
+							id = reqMoveXhr.responseText.split(";")[2];
+							$("#winrate").html("Steve ID "+id+" thinks her centipawn advantage is "+wr+".");
+						}
+						from_sq = move[0] + move[1];
+						to_sq = move[2] + move[3];
+						
+						var oldPromote = promotePiece;
+						if (move.length > 4) {
+							if (move[4] == "=")
+								promotePiece = move[5];
+							else
+								promotePiece = move[4];
+						}
+
+						onDrop(from_sq, to_sq);
+						board.position(game.fen());
+						
+						$("#fenbox").html(game.fen())
+						promotePiece = oldPromote;
+					} else {
+						$("#status").html("There was an error asking Steve's move.. This page will retry in 5 seconds");
+						console.log("Weird..");
+						setTimeout(function() {
+								askMove();
+						}, 5000);
+					}
+				}
+			};
+                // do not pick up pieces if the game is over
+                // only pick up pieces for the side to move
+                var onDragStart = function(source, piece, position, orientation) {
+                    if (game.game_over() === true ||
+                        (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+                        (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+                        return false;
+                    }
+                };
+
+                var onDrop = function(source, target) {
+                    // see if the move is legal
+                    var move = game.move({
+                        from: source,
+                        to: target,
+                        promotion: promotePiece
+                    });
+                    // illegal move
+                    if (move === null) return 'snapback';
+                    if ('promotion' in move) {
+                        target += move.promotion;
+                    }
+                    mv_history += source + target + " ";
+                    updateStatus();
+					
+                    promotePiece = "q";
+
+                    $('#promoteBtn').attr("value", "Will promote to: Queen");
+					preMove = false;
+                };
+
+                // update the board position after the piece snap 
+                // for castling, en passant, pawn promotion
+                var onSnapEnd = function() {
+					var fen = game.fen();
+					$("#fenbox").html(fen)
+                    board.position(fen);
+                    if (enabled && !game.game_over()) {
+						if(canMove) {
+							playComputer();
+						} else {
+							$("#status").html("Move registered. Steve will play when time is over")
+							preMove = true;
+						}
+                    }
+                };
+
+                var playComputer = function() {
+                    if (!canMove || game.game_over() === true)
+                        return;
+                    askMove();
+                };
+
+                var updateStatus = function() {
+                    var status = '';
+
+                    var moveColor = 'White';
+                    if (game.turn() === 'b') {
+                        moveColor = 'Black';
+                    }
+
+                    // checkmate?
+                    if (game.in_checkmate() === true) {
+                        status = 'Game over, ' + moveColor + ' is in checkmate.';
+                    }
+
+                    // draw?
+                    else if (game.in_draw() === true) {
+                        status = 'Game over, drawn position';
+                    }
+
+                    // game still on
+                    else {
+                        status = moveColor + ' to move';
+
+                        // check?
+                        if (game.in_check() === true) {
+                            status += ', ' + moveColor + ' is in check';
+                        }
+                    }
+                    statusEl.html(status);
+                    var htmlStr = "";
+                    var pgn = game.pgn();
+                    console.log(pgn);
+                    for (var i = 1;; i += 1) {
+                        pos = pgn.indexOf(i + ".");
+                        next = pgn.indexOf((i + 1) + ".");
+
+                        if (next == -1) {
+                            htmlStr += pgn.substring(pos, pgn.length) + " <br />";
+                            break;
+                        } else {
+                            htmlStr += pgn.substring(pos, next) + " <br />";
+                        }
+                    }
+
+                    historyEl.html(htmlStr);
+					$("#historybox").scrollTop($("#historybox")[0].scrollHeight);
+                };
+
+                var cfg = {
+                    draggable: true,
+                    position: 'start',
+                    onDragStart: onDragStart,
+                    onDrop: onDrop,
+                    onSnapEnd: onSnapEnd
+                };
+
+                board = ChessBoard('board', cfg);
+
+                updateStatus();
+
+                $('#startPositionBtn').on('click', function() {
+                    game = new Chess();
+					$("#fenbox").html(game.fen())
+                    mv_history = "";
+                    board.start();
+                    updateStatus();
+                });
+                $('#flipBtn').on('click', board.flip);
+                $('#move1Btn').on('click', function() {
+                    if (enabled) {
+                        $('#move1Btn').attr("value", "Steve: Disabled");
+                    } else {
+                        $('#move1Btn').attr("value", "Steve: Enabled");
+
+                    }
+                    enabled = !enabled;
+                });
+
+                $('#slowBtn').on('click', function() {
+                    $('#curMode').html("Hard");
+                    playouts = 400;
+					$('#playouts').html(playouts);
+                });
+				 
+				$('#fastBtn').on('click', function() {
+                    $('#curMode').html("Normal");
+                    playouts = 50;
+					$('#playouts').html(playouts);
+                });
+				
+				$('#ultrafastBtn').on('click', function() {
+                    $('#curMode').html("Easy");
+                    playouts = 1;
+					$('#playouts').html(playouts);
+                });
+				
+				$('#hardcoreBtn').on('click', function() {
+                    $('#curMode').html("Hardcore");
+                    playouts = 2000;
+					$('#playouts').html(playouts);
+                });
+
+                $('#promoteBtn').on('click', function() {
+                    var newName;
+                    if (promotePiece == "q") {
+                        newName = "Knight";
+                        promotePiece = "n";
+                    } else if (promotePiece == "n") {
+                        newName = "Bishop";
+                        promotePiece = "b";
+                    } else if (promotePiece == "b") {
+                        newName = "Rook";
+                        promotePiece = "r";
+                    } else if (promotePiece == "r") {
+                        newName = "Queen";
+                        promotePiece = "q";
+                    }
+
+                    $('#promoteBtn').attr("value", "Will promote to: " + newName);
+                });
+
+                $('#move2Btn').on('click', function() {
+                    if (canMove) {
+                        playComputer();
+                    } else {
+							$("#status").html("Force Steve move registered. Steve will play when time is over")
+							preMove = true;
+					}
+                });
+        </script> -->
     </div>
-</div>
-<script src="lib/jquery/jquery-3.2.1.min.js"></script>
-<script src="lib/chessboardjs/js/chess.js"></script>
-<script src="lib/chessboardjs/js/chessboard-0.3.0.js"></script>
-<script src="script.js"></script>
-<script>
 
-</script>
 </body>
+
 </html>

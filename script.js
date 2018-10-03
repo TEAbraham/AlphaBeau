@@ -1,7 +1,6 @@
 var board,
     game = new Chess();
 
-/*The "AI" part starts here */
 
 var minimaxRoot =function(depth, game, isMaximisingPlayer) {
 
@@ -242,7 +241,7 @@ var onDrop = function (source, target) {
     }
 
     renderMoveHistory(game.history());
-    window.setTimeout(makeBestMove, 250);
+    window.setTimeout(makeBestMove, 1000);
 };
 
 var onSnapEnd = function () {
