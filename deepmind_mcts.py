@@ -17,7 +17,6 @@ from random import choice
 from chess import pgn, uci
 from collections import defaultdict
 from rpc_client import PredictClient
-from pytorch_classification.utils import Bar, AverageMeter
 
 DRAW = 'draw'
 # This constant should change exploration tendencies
@@ -288,6 +287,7 @@ class MCTS:
 				chances[edge.move.uci()] = edge.simulations
 			# This does a weighted random selection based on simulations
 			choice = random.choice(choices)
+			print('--------------------------------------------------------')
 			print("{0} was chosen with chance: {1:.4f} out of {2} options".format(
 				choice.uci(),
 				float(chances[choice.uci()])/float(len(choices)),
@@ -296,49 +296,18 @@ class MCTS:
 		else:
 			return self.most_visited_child(self.__root).move
 			
-	for epoch in range(args.epochs):
-		print('EPOCH ::: ' + str(epoch + 1))
-		data_time = AverageMeter()
-		batch_time = AverageMeter()
-		pi_losses = AverageMeter()
-		v_losses = AverageMeter()
-		end = time.time()
 
-		bar = Bar('Training Net', max=int(len(examples) / args.batch_size))
-		batch_idx = 0
 
-		# self.sess.run(tf.local_variables_initializer())
-		while batch_idx < int(len(examples) / args.batch_size):
-			sample_ids = np.random.randint(len(examples), size=args.batch_size)
-			boards, pis, vs = list(zip(*[examples[i] for i in sample_ids]))
+batch_idx = 0
 
-			# predict and compute gradient and do SGD step
-			input_dict = {self.nnet.input_boards: boards, self.nnet.target_pis: pis, self.nnet.target_vs: vs, self.nnet.dropout: args.dropout, self.nnet.isTraining: True}
+while batch_idx < 10:
 
-			# measure data loading time
-			data_time.update(time.time() - end)
+	end = time.time()
+	batch_idx += 1
 
-			# record loss
-			self.sess.run(self.nnet.train_step, feed_dict=input_dict)
-			pi_loss, v_loss = self.sess.run([self.nnet.loss_pi, self.nnet.loss_v], feed_dict=input_dict)
-			pi_losses.update(pi_loss, len(boards))
-			v_losses.update(v_loss, len(boards))
-
-			# measure elapsed time
-			batch_time.update(time.time() - end)
-			end = time.time()
-			batch_idx += 1
-
-			# plot progress
-			bar.suffix  = '({batch}/{size}) Data: {data:.3f}s | Batch: {bt:.3f}s | Total: {total:} | ETA: {eta:} | Loss_pi: {lpi:.4f} | Loss_v: {lv:.3f}'.format(
-					batch=batch_idx,
-					size=int(len(examples) / args.batch_size),
-					data=data_time.avg,
-					bt=batch_time.avg,
-					total=bar.elapsed_td,
-					eta=bar.eta_td,
-					lpi=pi_losses.avg,
-					lv=v_losses.avg,
-					)
-			bar.next()
-		bar.finish()
+	# plot progress
+	print('({batch}/{size}) | Total: {total:}'.format(
+			batch=batch_idx,
+			size=10,
+			total=end
+			))

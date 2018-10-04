@@ -14,7 +14,7 @@ from deepmind_mcts import MCTS
 
 PGN_DIR = "SteveData/pgn/"
 DATA_DIR = "SteveData/self_play.csv"
-GAME_BATCH_SIZE = 50
+GAME_BATCH_SIZE = 10
 CLAIM_DRAW = True
 ENGINE_NAME = "Steve"
 
@@ -79,6 +79,7 @@ def play_game():
 		mcts = MCTS(startpos=board, prev_mcts=mcts, temperature=next_temp)
 		time_elapsed = time.time() - begin
 		print("Time elapsed from start of build to init next MCTS: " + str(time_elapsed))
+		print('--------------------------------------------------------')
 
 	result = board.result(claim_draw=CLAIM_DRAW) if move_count < 200 else "1/2-1/2"
 	write_board_data(boards, mcts_policy_strings, result)
@@ -86,11 +87,11 @@ def play_game():
 	game.headers["White"] = ENGINE_NAME
 	game.headers["Black"] = ENGINE_NAME
 	game.headers["Date"] = datetime.date.today()
-	game.headers["Event"] = "N/A"
+	game.headers["Event"] = "Self Play"
 	game.headers["Result"] = result
 	write_game_data(game)
 	return board
-
+	print(result)
 def main():
 	for i in range(GAME_BATCH_SIZE):
 		play_game()

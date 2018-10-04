@@ -56,8 +56,8 @@ class PredictClient():
 
         t = time.time()
         for d in request_data:
-            tensor_proto = make_tensor_proto(d)
-            request.inputs[d].CopyFrom(tensor_proto)
+            tensor_proto = make_tensor_proto(d, 'DT_FLOAT')
+            request.inputs['x'].CopyFrom(tensor_proto)
 
         self.logger.debug('Making tensor protos took: {}'.format(time.time() - t))
 
@@ -74,8 +74,10 @@ class PredictClient():
 
         except RpcError as e:
             
-            self.logger.error(e)
+            # self.logger.error(e)
             # self.logger.error('Prediction failed!')
+
+            pass
 
         return {}
 
