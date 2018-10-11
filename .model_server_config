@@ -5,7 +5,7 @@ model_config_list: {
     model_platform: "tensorflow",
     model_version_policy: {
       specific: {
-        versions: [ 1518630696, 1518604026 ]
+        versions: [ 1539245045, 1518604026 ]
       }
     }
   }

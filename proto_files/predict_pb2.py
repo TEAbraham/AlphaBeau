@@ -14,7 +14,8 @@ _sym_db = _symbol_database.Default()
 
 
 from tensorflow.core.framework import tensor_pb2 as tensorflow_dot_core_dot_framework_dot_tensor__pb2
-from proto_files.model_pb2 import DESCRIPTOR as MODEL_DESCRIPTOR
+import proto_files.model_pb2 as model__pb2
+# from proto_files.model_pb2 import DESCRIPTOR as MODEL_DESCRIPTOR
 from proto_files.model_pb2 import _MODELSPEC
 
 
@@ -24,7 +25,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_pb=_b('\n\rpredict.proto\x12\x12tensorflow.serving\x1a&tensorflow/core/framework/tensor.proto\x1a\x0bmodel.proto\"\xe2\x01\n\x0ePredictRequest\x12\x31\n\nmodel_spec\x18\x01 \x01(\x0b\x32\x1d.tensorflow.serving.ModelSpec\x12>\n\x06inputs\x18\x02 \x03(\x0b\x32..tensorflow.serving.PredictRequest.InputsEntry\x12\x15\n\routput_filter\x18\x03 \x03(\t\x1a\x46\n\x0bInputsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12&\n\x05value\x18\x02 \x01(\x0b\x32\x17.tensorflow.TensorProto:\x02\x38\x01\"\x9d\x01\n\x0fPredictResponse\x12\x41\n\x07outputs\x18\x01 \x03(\x0b\x32\x30.tensorflow.serving.PredictResponse.OutputsEntry\x1aG\n\x0cOutputsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12&\n\x05value\x18\x02 \x01(\x0b\x32\x17.tensorflow.TensorProto:\x02\x38\x01\x42\x03\xf8\x01\x01\x62\x06proto3')
   ,
-  dependencies=[tensorflow_dot_core_dot_framework_dot_tensor__pb2.DESCRIPTOR, MODEL_DESCRIPTOR])
+  dependencies=[tensorflow_dot_core_dot_framework_dot_tensor__pb2.DESCRIPTOR, model__pb2.DESCRIPTOR,])
 
 
 

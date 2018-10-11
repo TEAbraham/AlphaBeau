@@ -121,7 +121,7 @@ class MCTS:
 	ITER_TIME = 1
 
 	def __init__(self, startpos=chess.Board(), iterations=None, iter_time=None,
-		prev_mcts=None, temperature=True, version=1, startcolor=True):
+		prev_mcts=None, temperature=True, version=0, startcolor=True):
 		self.version = version if version else util.latest_version()
 		# gRPC client to query the trained model at localhost:9000
 		# SERVER MUST BE RUNNING LOCALLY
@@ -287,8 +287,7 @@ class MCTS:
 				chances[edge.move.uci()] = edge.simulations
 			# This does a weighted random selection based on simulations
 			choice = random.choice(choices)
-			print('--------------------------------------------------------')
-			print("{0} was chosen with chance: {1:.4f} out of {2} options".format(
+			print("{0} was chosen with {1:.4f} confidence from {2} options".format(
 				choice.uci(),
 				float(chances[choice.uci()])/float(len(choices)),
 				len(self.__root.children)))
@@ -298,16 +297,4 @@ class MCTS:
 			
 
 
-batch_idx = 0
 
-while batch_idx < 10:
-
-	end = time.time()
-	batch_idx += 1
-
-	# plot progress
-	print('({batch}/{size}) | Total: {total:}'.format(
-			batch=batch_idx,
-			size=10,
-			total=end
-			))

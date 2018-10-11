@@ -3,6 +3,7 @@ import sys
 sys.path.append(sys.path[0] + "/..")
 
 import chess
+import chess.svg
 import os
 import time
 import datetime
@@ -14,7 +15,7 @@ from deepmind_mcts import MCTS
 
 PGN_DIR = "SteveData/pgn/"
 DATA_DIR = "SteveData/self_play.csv"
-GAME_BATCH_SIZE = 10
+GAME_BATCH_SIZE = 20
 CLAIM_DRAW = True
 ENGINE_NAME = "Steve"
 
@@ -50,6 +51,7 @@ def play_game():
 	boards = []
 	mcts_policy_strings = []
 	move_count = 0
+	clock = 0
 	next_temp = True
 
 	# I believe his works because the game is implemented as a tree of moves and it
@@ -60,6 +62,7 @@ def play_game():
 	node = game
 
 	while not board.is_game_over(claim_draw=True) and not move_count >= 200:
+
 		begin = time.time()
 		# Build new tree
 		mcts.build()
@@ -69,17 +72,23 @@ def play_game():
 		# Execute the move selected by MCTS
 		board.push(move)
 		move_count += 1
+		if move_count % 2 == 0:
+			plays = "Black's"
+		else:
+			plays = "White's"
 		# Stop exploring so much after 15 moves
-		if move_count == 15:
+		if move_count == 200:
 			next_temp = False
-		print("Move " + str(move_count) + ": " + move.uci())
-		print(board)
+		print(f'		{plays} Move: {move.uci()}			')
+		print(f"{board}")
 		node = node.add_variation(move)
 		# Salvage existing statistics about the position
 		mcts = MCTS(startpos=board, prev_mcts=mcts, temperature=next_temp)
 		time_elapsed = time.time() - begin
-		print("Time elapsed from start of build to init next MCTS: " + str(time_elapsed))
-		print('--------------------------------------------------------')
+		clock += time_elapsed
+		print(f"  Turn: {move_count} | MCTS: {time_elapsed:.4f} sec | Clock: {(clock/60):.4f} min")
+		print(f'--------------------Game {(len(os.listdir(PGN_DIR+str(util.best_version()))))}-----------------------------')
+
 
 	result = board.result(claim_draw=CLAIM_DRAW) if move_count < 200 else "1/2-1/2"
 	write_board_data(boards, mcts_policy_strings, result)
@@ -92,6 +101,7 @@ def play_game():
 	write_game_data(game)
 	return board
 	print(result)
+
 def main():
 	for i in range(GAME_BATCH_SIZE):
 		play_game()
