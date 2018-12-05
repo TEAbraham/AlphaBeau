@@ -1,28 +1,32 @@
 html{
     color: whitesmoke;
-    padding-left: 200px;
 }
 
 head{
-    background-color: black;
-    padding-left: 400px;
+    background-color: transparent;
 }
 
 body{
     background-color: black;
+    z-index: -1;
 }
 
 h1, h3, p, ul{
     color: whitesmoke;
 }
 
+svg{
+    align-content: right;
+}
 .main-nav li{
-    background: black !important;
+    background-color: transparent;
     color: whitesmoke;
+    z-index: 100;
+    position:relative;
 }
 
 .board {
-    width: 500px;
+    width: 600px;
     margin: auto;
 }
 
@@ -38,12 +42,23 @@ h1, h3, p, ul{
 }
 
 img{
-    max-width:600px;
-    max-height:600px;
+    max-width:1000px;
+    max-height:1000px;
+    z-index: -1;
 }
 
 #sticky-wrapper{
     background-color: black;
+    z-index: 100;
+    position:relative;
+}
+
+#rand{
+    align-content: center;
+}
+
+#minmax{
+    align-content: center;
 }
 
 #heatmap-example-1{

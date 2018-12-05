@@ -189,7 +189,7 @@ var makeBestMove = function () {
     var bestMove = getBestMove(game);
     game.ugly_move(bestMove);
     board.position(game.fen());
-    renderMoveHistory(game.history());
+    // renderMoveHistory(game.history());
     if (game.game_over()) {
         alert('Game over');
     }
@@ -203,7 +203,7 @@ var getBestMove = function (game) {
     }
 
     positionCount = 0;
-    var depth = parseInt($('#search-depth').find(':selected').text());
+    var depth = 3;
 
     var d = new Date().getTime();
     var bestMove = minimaxRoot(depth, game, true);
@@ -217,15 +217,15 @@ var getBestMove = function (game) {
     return bestMove;
 };
 
-var renderMoveHistory = function (moves) {
-    var historyElement = $('#move-history').empty();
-    historyElement.empty();
-    for (var i = 0; i < moves.length; i = i + 2) {
-        historyElement.append('<span>' + moves[i] + ' ' + ( moves[i + 1] ? moves[i + 1] : ' ') + '</span><br>')
-    }
-    historyElement.scrollTop(historyElement[0].scrollHeight);
+// var renderMoveHistory = function (moves) {
+//     var historyElement = $('#move-history').empty();
+//     historyElement.empty();
+//     for (var i = 0; i < moves.length; i = i + 2) {
+//         historyElement.append('<span>' + moves[i] + ' ' + ( moves[i + 1] ? moves[i + 1] : ' ') + '</span><br>')
+//     }
+//     historyElement.scrollTop(historyElement[0].scrollHeight);
 
-};
+// };
 
 var onDrop = function (source, target) {
 
@@ -240,57 +240,41 @@ var onDrop = function (source, target) {
         return 'snapback';
     }
 
-    renderMoveHistory(game.history());
+    // renderMoveHistory(game.history());
+
     window.setTimeout(makeBestMove, 1000);
 };
 
-// var onSnapEnd = function () {
-//     board.position(game.fen());
-// };
 
-// var onMouseoverSquare = function(square, piece) {
-//     var moves = game.moves({
-//         square: square,
-//         verbose: true
-//     });
 
-//     if (moves.length === 0) return;
-
-//     greySquare(square);
-
-//     for (var i = 0; i < moves.length; i++) {
-//         greySquare(moves[i].to);
-//     }
-// };
-
-// var onMouseoutSquare = function(square, piece) {
-//     removeGreySquares();
-// };
-
-// var removeGreySquares = function() {
-//     $('#board .square-55d63').css('background', '');
-// };
-
-// var greySquare = function(square) {
-//     var squareEl = $('#board .square-' + square);
-
-//     var background = '#a9a9a9';
-//     if (squareEl.hasClass('black-3c85d') === true) {
-//         background = '#696969';
-//     }
-
-//     squareEl.css('background', background);
-// };
-
-// var cfg = {
-//     draggable: true,
-//     position: 'start',
-//     onDragStart: onDragStart,
-//     onDrop: onDrop,
-//     onMouseoutSquare: onMouseoutSquare,
-//     onMouseoverSquare: onMouseoverSquare,
-//     onSnapEnd: onSnapEnd
-// };
-board = ChessBoard('board', 'start');
+var onDrop = function(source, target) {
+    // see if the move is legal
+    var move = game.move({
+      from: source,
+      to: target,
+      promotion: 'q' // NOTE: always promote to a queen for example simplicity
+    });
+  
+    // illegal move
+    if (move === null) return 'snapback';
+  
+    // make random legal move for black
+    window.setTimeout(makeRandomMove, 250);
+  };
+  
+  // update the board position after the piece snap
+  // for castling, en passant, pawn promotion
+  var onSnapEnd = function() {
+    board.position(game.fen());
+  };
+  
+  var cfg = {
+    draggable: true,
+    position: 'start',
+    onDragStart: onDragStart,
+    onDrop: onDrop,
+    onSnapEnd: onSnapEnd
+  };
+board = ChessBoard('minmax', 'start');
 
 window.setTimeout(makeBestMove, 1000);
