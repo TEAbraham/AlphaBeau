@@ -6,12 +6,16 @@ html{
 head{
 
     padding-left: 400px;
+
 }
 
+body{
+    background-color: black;
+}
 
 .board {
     width: 500px;
-    margin: auto
+    margin: auto;
 }
 
 .info {

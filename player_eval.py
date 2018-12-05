@@ -12,7 +12,7 @@ from chess import pgn
 from deepmind_mcts import MCTS
 
 # This should eventually go up to 400
-EVAL_GAMES = 20
+EVAL_GAMES = 50
 
 # latest version is default for MCTS
 latest_player = MCTS(startpos=chess.Board())
@@ -34,19 +34,18 @@ def play_game(best_player_starts=True):
 	clock = 0
 	next_temp = True
 	while not board.is_game_over(claim_draw=True) and not move_count >= 200:
+		begin = time.time()
+		move_count += 1
 		if turn:
 			player = player1
 		else:
 			player = player2
 
 		# Build new tree
-		
 		player.build()
-		begin = time.time()
 		move = player.best_move()
 		# Execute the move selected by MCTS
 		board.push(move)
-		move_count += 1
 		if move_count % 2 == 0:
 			plays = "Black's"
 		else:

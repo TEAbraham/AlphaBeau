@@ -15,7 +15,7 @@ from deepmind_mcts import MCTS
 
 PGN_DIR = "SteveData/pgn/"
 DATA_DIR = "SteveData/self_play.csv"
-GAME_BATCH_SIZE = 20
+GAME_BATCH_SIZE = 50
 CLAIM_DRAW = True
 ENGINE_NAME = "Steve"
 

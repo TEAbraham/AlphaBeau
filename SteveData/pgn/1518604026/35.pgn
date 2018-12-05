@@ -1,0 +1,13 @@
+[Event "Self Play"]
+[Site "?"]
+[Date "2018-10-11"]
+[Round "?"]
+[White "Steve"]
+[Black "Steve"]
+[Result "0-1"]
+
+1. b3 g5 2. g4 f6 3. Nh3 e6 4. a4 b5 5. Bg2 h5 6. e4 c5 7. axb5 Kf7 8. Na3 Be7
+9. Bf3 Bb7 10. Kf1 h4 11. Ke2 a6 12. Rf1 Ke8 13. Qe1 axb5 14. Nxb5 e5 15. Kd3
+Bc6 16. Rg1 Bb7 17. b4 Ra5 18. Kc4 d6 19. Qe3 Na6 20. Rg2 Qb8 21. Qd3 Qc7 22.
+bxa5 Nh6 23. Qxd6 f5 24. c3 f4 25. Na7 Bd5+ 26. exd5 Bxd6 27. Nxf4 Qb6 28. Nb5
+Nc7 29. h3 Qxb5# 0-1

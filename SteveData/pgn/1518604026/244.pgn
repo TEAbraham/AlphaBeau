@@ -1,0 +1,24 @@
+[Event "Self Play"]
+[Site "?"]
+[Date "2018-10-17"]
+[Round "?"]
+[White "Steve"]
+[Black "Steve"]
+[Result "1/2-1/2"]
+
+1. a4 g6 2. b4 f5 3. Nh3 Nh6 4. c4 e5 5. g4 a6 6. Nc3 a5 7. Rb1 b5 8. Ra1 Qe7
+9. f4 Qg5 10. Ne4 exf4 11. Rb1 Ra7 12. Rb3 Nf7 13. Nhf2 bxa4 14. h3 a3 15. Rh2
+fxe4 16. Rd3 Qh6 17. Rb3 c5 18. Rd3 Ne5 19. Nxe4 a2 20. h4 Nxc4 21. Rg3 fxg3
+22. Nxg3 a1=N 23. bxa5 Nxa5 24. Nh1 Qg7 25. Rh3 Qf6 26. Bb2 Qc3 27. h5 Qxh3 28.
+g5 Qa3 29. Kf2 h6 30. Bh3 Qb3 31. e3 Qc4 32. Qxa1 Qa2 33. Bxh8 Ra6 34. e4 Qxd2+
+35. Kg1 Qc2 36. Qf6 Nb3 37. Qf2 Qd1+ 38. Kh2 Qc2 39. Bc3 gxh5 40. Qe2 Ra5 41.
+Bf6 Qd1 42. Kg3 Qa1 43. Qg2 Qa2 44. Qxa2 Na6 45. Qb1 Bd6+ 46. Be5 Bb7 47. Qd1
+Be7 48. Qd6 Ba8 49. Be6 Ra1 50. Bc3 Re1 51. Bd2 Rb1 52. Be3 Bxd6+ 53. Kf2 Nd2
+54. Ba2 Nc4 55. gxh6 Rb6 56. Kf1 Rb3 57. Ke1 Rc3 58. Bd2 Na5 59. Ng3 Nc7 60.
+Be6 Nd5 61. exd5 Bxd5 62. Nh1 h4 63. Kf2 Bxe6 64. Kg1 Rf3 65. Bb4 Rb3 66. Be1
+Bb8 67. Bb4 Rb1+ 68. Kf2 cxb4 69. Kf3 Nb7 70. Ke3 h3 71. Kd3 Rf1 72. Ng3 Bc4+
+73. Kxc4 Bf4 74. h7 Rg1 75. Kd4 d5 76. Ne4 Rb1 77. h8=Q+ Kd7 78. Nd2 Kc6 79.
+Qh4 Bxd2 80. Qg5 Kb5 81. Qf4 Rf1 82. Qh2 Rh1 83. Qg1 Rxg1 84. Kxd5 Rg8 85. Ke4
+Bc3 86. Kf4 h2 87. Ke4 Nd8 88. Kf4 h1=N 89. Kf5 Ne6 90. Ke4 Rg2 91. Kd5 Bg7 92.
+Kd6 Nf4 93. Kc7 Rg6 94. Kd8 Ng3 95. Ke7 Ka6 96. Kd8 Rh6 97. Kd7 Kb6 98. Kd8 Ng2
+99. Ke8 Rh4 100. Kd7 Nf4 1/2-1/2
