@@ -3,7 +3,7 @@ html{
 }
 
 head{
-    background-color: transparent;
+    background-color: black;
 }
 
 body{
@@ -18,8 +18,8 @@ h1, h3, p, ul{
 svg{
     align-content: right;
 }
-.main-nav li{
-    background-color: transparent;
+.main-nav ul{
+    background-color: black;
     color: whitesmoke;
     z-index: 100;
     position:relative;

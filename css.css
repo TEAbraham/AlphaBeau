@@ -56,7 +56,7 @@ body{background:black;}
 #paths-combined .move-path{stroke-width:2px}
 #board2{position:absolute;width:155px;top:185px;left:525px}
 #board2 img{padding:0}
-div[class^="square-"].active{background:red !important}
+div[class^="square-"].active{background:yellow !important}
 .caption{color:rgba(255,255,255,0.8);display:block;text-align:center}
 .donut{display:inline-block}.donut text{fill:rgba(255,255,255,0.8)}
 .donut .value{fill:rgba(255,255,255,0.8);font-size:34px}

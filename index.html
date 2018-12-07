@@ -3,68 +3,64 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
-		<title>steve</title>
-
+		<title>Steve</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-		<link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="css/chessboard-0.3.0.css">
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="lib/chessboardjs/css/chessboard-0.3.0.css">
-    <link rel="stylesheet" href="style.css">
-</head>
+		<link rel="stylesheet" href="style.css">
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	</head>
 	<body data-gr-c-s-loaded="true">
-			<div class="container" id="top">
+		<div class="container" id="top">
 				<div class="row">
-					<div class="12-lg-col">
+					<div class="12-xl-col">
 						<h1>STEVE<br><small>reinforcement learning &amp; chess</small></h1>
 					</div>
 				</div>
 				<div id="sticky-wrapper" class="sticky-wrapper is-sticky" style="height: 38px;">
-					<ul class="main-nav" style="width: 650px; position: fixed; top: 20px; left: 600px;">
-						<li><a href="#evalandtime-top" class="button">Evaluation &amp; Time</a>
-							<a href="#heatmap-top" class="button">Heatmap</a>
-							<a href="#openings-top" class="button">Openings</a>
-							<a href="#movepaths-top" class="button">Move Paths</a>
-							
-							</li>
+					<ul class="main-nav" style="width: 650px; position: fixed; top: 20px; left: 700px;">
+						<a href="#evalandtime-top" class="button">Evaluation &amp; Time</a>
+						<a href="#heatmap-top" class="button">Heatmap</a>
+						<a href="#openings-top" class="button">Openings</a>
+						<a href="#movepaths-top" class="button">Move Paths</a>
 					</ul>
 				</div>
+				<hr id="evalandtime-top">
+		</div>
+		<div class="container">
+				<div class="row">
+					<div class="12-xl-col">
+							<div id="rand" class="board">
+							<script src="lib/jquery/jquery-3.2.1.min.js"></script>
+							<script src="lib/chessboardjs/js/chess.js"></script>
+							<script src="lib/chessboardjs/js/chessboard-0.3.0.js"></script>
+							<script src="rand.js"></script>
+							</div>
+					</div>			
 				</div>
-				<div class="container">
-						<div class="row">
-							<div class="12-lg-col">
-									<div id="rand" class="board">
-									<script src="lib/jquery/jquery-3.2.1.min.js"></script>
-									<script src="lib/chessboardjs/js/chess.js"></script>
-									<script src="lib/chessboardjs/js/chessboard-0.3.0.js"></script>
-									<script src="rand.js"></script>
-									</div>
-						</div>			
+				<hr>
+		</div>
+		<br>
+		<br>
+		<div class="container">
+			<div class="row">
+					<div class="12-xl-col">
+						<h3>Self</h3>
+						<p>How we learn...</p>
+						<p>MiniMax vs MCTS</p>
+						<img src="img/mcts_selection_neg.png" alt="selection" style="max-width:230px;">
+						<img src="img/mcts_expansion_neg.png" alt="expansion" style="max-width:230px;">
+						<img src="img/mcts_simulation_neg.png" alt="simulation" style="max-width:230px;">
+						<img src="img/mcts_backprop_neg.png" alt="backprop" style="max-width:230px;">
 					</div>
-					<hr>
 			</div>
-		<br>
-
-		<br>
-		<div class="container">
-		<div class="row">
-				<div class="12-col">
-					<h3>Self</h3>
-					<p>How we learn...</p>
-					<p>MiniMax vs MCTS</p>
-					<img src="img/mcts_selection_neg.png" alt="selection" style="max-width:300px;">
-					<img src="img/mcts_expansion_neg.png" alt="expansion" style="max-width:300px;">
-					<img src="img/mcts_simulation_neg.png" alt="simulation" style="max-width:300px;">
-					<img src="img/mcts_backprop_neg.png" alt="backprop" style="max-width:300px;">
-				</div>
-		</div>
 		</div>
 		<div class="container">
-		<div class="row">
-				<div class="12-col">
+			<div class="row">
+				<div class="12-xl-col">
 						<script src="js.js"></script>
 						<link rel="stylesheet" href="css.css">
 						<div id="hm-combined">
@@ -80,27 +76,28 @@
 						</div>						
 				</div>
 			</div>
-		<hr id="evalandtime-top">
-	</div>
+
+			<hr id="heatmap-top">
+		</div>
 		<div class="container">
-		<div class="row">
-				<div class="12-lg-col">
+			<div class="row">
+				<div class="12-xl-col">
 					<h3>Train</h3>
 					<p>How we think...</p>
 					<p>Encoding</p>
 					<img src="img/ACZ_Pipeline_neg.png" alt="pipeline">
 				</div>
-		</div>
+			</div>
 		</div>
 		<br>
 		<div class="container">
 				<div class="row">
-				<div class="12-lg-col">
+					<div class="12-xl-col">
 						<div id="heatmap-example-2" class="cdv-heatmap"></div>
-					<br>
-					<button id="w-btn" class="button button-primary">White Queens</button>
-					<button id="b-btn" class="button">Black Queens</button>
-				</div>
+						<br>
+						<button id="w-btn" class="button button-primary">White Queens</button>
+						<button id="b-btn" class="button">Black Queens</button>
+					</div>
 				<script> d3.json('fangol.json', function(err, data) {
 					var heatmapExample2 = new ChessDataViz.HeatMap('#heatmap-example-2', {
 						colorScale: ['cyan', 'gold'],
@@ -151,11 +148,12 @@
 				});
 				</script>
 				</div>
-				<hr id="heatmap-top">	
+
+				<hr id="openings-top">	
 		</div>
 			<div class="container">
 			<div class="row">
-					<div class="12-lg-col">
+					<div class="12-xl-col">
 						<h3>Evaluate</h3>
 						<p>How we improve...</p>
 						<p>Encoding</p>
@@ -165,7 +163,7 @@
 			</div>
 			<div class="container">
 				<div class="row">
-					<div class="12-lg-col">
+					<div class="12-xl-col">
 							<div id="op-combined">
 									<div class="cdv-openings" id="openings">
 										</div>
@@ -253,22 +251,23 @@
 							});
 						});</script>
 				</div>
-				<hr id="openings-top">
+
+				<hr id="movepaths-top">
 			</div>
 			<div class="container">
 					<div class="row">
-						<div class="12-lg-col">
+						<div class="12-xl-col">
 							<h3>Who we are...</h3>
 							<h3>Who we will be...</h3>
 
 							<div id="paths-combined">
 									<div class="cdv-move-paths" id="movepaths"></div>
+									<br>
 									<div id="board2"></div>
 							</div>
 						</div>
 				</div>
 		</div>
 		<span class="gr__tooltip"><span class="gr__tooltip-content"></span><i class="gr__tooltip-logo"></i><span class="gr__triangle"></span></span>
-		<hr id="movepaths-top">
 	</body>
 </html>
