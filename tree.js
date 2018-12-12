@@ -57,7 +57,9 @@ function miniMax(node, depth, isMaxAgent) {
 
 function createData() {
     for (var i =0; i<8; i++) {
-    leafValues[i] = Math.floor((Math.random() * 10) + 1);
+        var num = Math.floor(Math.random()*9) + 1; // this will get a number between 1 and 99;
+        num *= Math.floor(Math.random()*2) == 1 ? 1 : -1; // this will add minus sign in 50% of cases
+        leafValues[i] = num;
     }    
     treeData = [
 {
