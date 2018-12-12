@@ -168,13 +168,14 @@
 									<p>Move Tree</p>
 									<br>
 									<div class="cdv-openings" id="openings">
-										<div id="board">
+										<!-- <div id="board">
 											<div class="chessboard-63f37"><div class="board-b72b1"></div></div>
-										</div>
+										</div> -->
 									</div>
 									<div class="caption">
-										<span id="op-name"></span>
-										<span id="op-percentage"></span>
+										<br> Looking at variation: <span id="variation"></span>
+										<!-- <br> Percentage of games with this variation: <span id="percentage"></span> -->
+										<br>
 										<button id="all" class="button button-primary">All Openings</button>
 										<button id="d4" class="button">d4 Variations</button>
 										<button id="e4" class="button">e4 Variations</button>
@@ -194,6 +195,7 @@
 									.attr('class', 'd3-tip')
 									.offset([25, -6])
 									.html(function(d, moves) {
+										d3.select('#variation').text(moves.join(' '));
 										var percent = d.value / data.openings.value * 100;
 										var parent = d.value/d.parent.value * 100;
 										return(`<center>${d.value} out of 1.32M   |   ${percent.toFixed(2)}%<br>${parent.toFixed(2)}% of parent`)
