@@ -1,51 +1,64 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<style type="text/css">
-  
-	.node {
-    cursor: pointer;
-  }
-
-  .overlay{
-      background-color:#EEE;
-  }
-   
-  .node circle {
-    fill: #fff;
-    stroke: steelblue;
-    stroke-width: 1.5px;
-  }
-   
-  .node text {
-    font-size:10px; 
-    font-family:sans-serif;
-  }
-   
-  .link {
-    fill: none;
-    stroke: #ccc;
-    stroke-width: 1.5px;
-  }
-
-  .templink {
-    fill: none;
-    stroke: red;
-    stroke-width: 3px;
-  }
-
-  .ghostCircle.show{
-      display:block;
-  }
-
-  .ghostCircle, .activeDrag .ghostCircle{
-       display: none;
-  }
-
-</style>
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="tree.js"></script>
-<body>
-    <div id="tree-container"></div>
-</body>
+<html lang="en"  ng-app="codepen">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://use.fontawesome.com/2e402fe4f3.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+    <script data-semver="1.5.9" src="http://code.angularjs.org/1.5.9/angular.js" data-require="angular.js@1.5.x">
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.8.1/css/tachyons.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
+    <style>
+      html {
+        height: 500px !important;
+        padding-left: 50px;
+      }  
+      body {
+        -webkit-touch-callout: none; /* iOS Safari */
+           -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+              -moz-user-select: none; /* Firefox */
+               -ms-user-select: none; /* Internet Explorer/Edge */
+                   user-select: none; /* Non-prefixed version, currently
+                                         supported by Chrome and Opera */
+         
+         font-family: Rubik, sans-serif;
+         background-color: black;
+         color: white;
+         height: 500px !important;
+       }
+       
+       svg {
+         display: block;
+         margin-left:  auto;
+         margin-right: auto;
+         height: 300px !important;
+       }
+       
+       
+       .node circle {
+           fill: #fff;
+           stroke: white;
+           stroke-width: 1px;
+         }
+       
+         .node text { font: 10px sans-serif; }
+             
+         .node value { font: 20px sans-serif; }
+       
+         .link {
+           fill: none;
+           stroke: #ccc;
+           stroke-width: 2px;
+         }
+         </style>
+  </head>
+  <body  ng-controller="MainCtrl as vm">
+    <div class="center tc mv4"> 
+      <button ng-click="vm.refresh()" class="pv3 ph4 box-shadow-4 ttu tracked fw3 pointer bg-white ">New Values</button>
+    </div>
+    
+  <!-- load the d3.js library -->	
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="tree.js"></script>
+  </body>
 </html>

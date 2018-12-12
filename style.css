@@ -48,22 +48,6 @@ img{
     overflow-y: scroll;
 }
 
-.node circle {
-    fill: black;
-    stroke: white;
-    stroke-width: 1px;
-  }
-
-  .node text { font: 10px sans-serif; }
-    
-.node value { font: 20px sans-serif; }
-
-  .link {
-    fill: none;
-    stroke: #ccc;
-    stroke-width: 2px;
-  }
-
 #sticky-wrapper{
     background-color: black;
     z-index: 100;
