@@ -43,8 +43,9 @@ body{background:black;}
 .white rect,.white div[class*="white-"]{fill:#6c6c6c !important;background:#6c6c6c !important}
 .white .text{fill:#3c3c3c !important}
 #hm-combined{text-align:center}
+#hm2-combined{text-align:center}
 #op-combined{position:relative;text-align:center}
-#board{position:absolute;width:175px;top:40%;left:40%}
+#board{position:absolute;width:155px;top:42%;left:42%}
 #board img{padding:0}
 #op-combined span{display:block;text-align:center;position:relative;color:rgba(255,255,255,0.8)}
 #openings{margin-bottom:15px}
@@ -52,9 +53,8 @@ body{background:black;}
 .op .name{display:block;text-align:center}
 .op .pct{display:block;text-align:center}
 .ending,.castling{text-align:center}
-#paths-combined{position:relative;display:inline-block;text-align:center}
 #paths-combined .move-path{stroke-width:2px}
-#board2{position:absolute;width:155px;top:185px;left:525px}
+#board2{position: relative;;width:175px;top:40%;left:40%}
 #board2 img{padding:0}
 div[class^="square-"].active{background:yellow !important}
 .caption{color:rgba(255,255,255,0.8);display:block;text-align:center}

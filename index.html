@@ -21,14 +21,15 @@
 					</div>
 				</div>
 				<div id="sticky-wrapper" class="sticky-wrapper is-sticky" style="height: 38px;">
-					<ul class="main-nav" style="width: 650px; position: fixed; top: 20px; left: 700px;">
-						<a href="#evalandtime-top" class="button">Evaluation &amp; Time</a>
-						<a href="#heatmap-top" class="button">Heatmap</a>
-						<a href="#openings-top" class="button">Openings</a>
-						<a href="#movepaths-top" class="button">Move Paths</a>
+					<ul class="main-nav" style="width: 800px; position: fixed; top: 20px; left: 600px;">
+						<a href="#chess" class="button">chess</a>
+						<a href="#ai" class="button">artificial intelligence</a>
+						<a href="#opening" class="button">opening</a>
+						<a href="#middle" class="button">middle</a>
+						<a href="#endgame" class="button">end game</a>
 					</ul>
 				</div>
-				<hr id="evalandtime-top">
+				<hr id="chess">
 		</div>
 		<div class="container">
 				<div class="row">
@@ -41,28 +42,100 @@
 							</div>
 					</div>			
 				</div>
-				<hr>
+				<hr id="ai">
 		</div>
 		<br>
 		<br>
 		<div class="container">
 			<div class="row">
 					<div class="12-xl-col">
-						<h3>Self</h3>
-						<p>How we learn...</p>
-						<p>MiniMax vs MCTS</p>
-						<img src="img/mcts_selection_neg.png" alt="selection" style="max-width:230px;">
-						<img src="img/mcts_expansion_neg.png" alt="expansion" style="max-width:230px;">
-						<img src="img/mcts_simulation_neg.png" alt="simulation" style="max-width:230px;">
-						<img src="img/mcts_backprop_neg.png" alt="backprop" style="max-width:230px;">
-					</div>
+						<h3>Artificial Intelligence</h3>
+						<p>How we think...</p>
+						<p>MiniMax</p>
+						<p>Monte Carlo Tree Search</p>
+						<img src="img/MCTS.svg.png" alt="MCTS">
+						<img src="img/ACZ_Pipeline_neg.png" alt="pipeline"style="padding-left: 150px">
+						<img src="img/alpha_go_zero_cheat_sheet_neg.png" alt="pipeline">
+				</div>
 			</div>
+			<hr id="opening">
 		</div>
 		<div class="container">
 			<div class="row">
 				<div class="12-xl-col">
+					<h3>Opening</h3>
+					<p>How we learn...</p>
+					<p>Play</p>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="container">
+				<div class="row">
+					<div class="12-xl-col">
 						<script src="js.js"></script>
 						<link rel="stylesheet" href="css.css">
+						<div id="hm2-combined">
+							<div id="heatmap-example-2" class="cdv-heatmap"></div>
+							<br>
+							<button id="w-btn" class="button button-primary">White Queens</button>
+							<button id="b-btn" class="button">Black Queens</button>
+						</div>
+						<script> d3.json('fangol.json', function(err, data) {
+								var heatmapExample2 = new ChessDataViz.HeatMap('#heatmap-example-2', {
+									colorScale: ['cyan', 'gold'],
+									sizeScale: false,
+									accessor: {
+										color: 'w',
+										piece: 'q'
+									}
+								}, data.heatmaps.checkSquares);
+							
+								var tip = d3.tip()
+									.attr('class', 'd3-tip')
+									.offset([25, -6])
+									.html(function(d) {
+										return d;
+									});
+							
+								heatmapExample2.dispatch.on('mouseenter', tip.show);
+								heatmapExample2.dispatch.on('mouseleave', tip.hide);
+								heatmapExample2.dataContainer.call(tip);
+							
+								var wButton = d3.select('#w-btn');
+								var bButton = d3.select('#b-btn');
+							
+								wButton.on('click', function() {
+									heatmapExample2.options({
+										accessor: {
+											color: 'w',
+											piece: 'q'
+										}
+									});
+							
+									wButton.classed('button-primary', true);
+									bButton.classed('button-primary', false);
+								});
+							
+								bButton.on('click', function() {
+									heatmapExample2.options({
+										accessor: {
+											color: 'b',
+											piece: 'q'
+										}
+									});
+							
+									wButton.classed('button-primary', false);
+									bButton.classed('button-primary', true);
+								});
+							});
+						</script>
+					</div>
+				</div>
+		</div>
+		<div class="container">
+				<div class="row">
+					<div class="12-xl-col">
 						<div id="hm-combined">
 								<div id="heatmap" class="cdv-heatmap"></div>
 								<select id="heatmap-selector">
@@ -74,90 +147,16 @@
 								<div id="piece-selectors-w"></div>
 								<div id="piece-selectors-b"></div>
 						</div>						
+					</div>
 				</div>
+				<hr id="middle">	
 			</div>
-
-			<hr id="heatmap-top">
-		</div>
-		<div class="container">
-			<div class="row">
-				<div class="12-xl-col">
-					<h3>Train</h3>
-					<p>How we think...</p>
-					<p>Encoding</p>
-					<img src="img/ACZ_Pipeline_neg.png" alt="pipeline">
-				</div>
-			</div>
-		</div>
-		<br>
-		<div class="container">
+			<div class="container">
 				<div class="row">
 					<div class="12-xl-col">
-						<div id="heatmap-example-2" class="cdv-heatmap"></div>
-						<br>
-						<button id="w-btn" class="button button-primary">White Queens</button>
-						<button id="b-btn" class="button">Black Queens</button>
-					</div>
-				<script> d3.json('fangol.json', function(err, data) {
-					var heatmapExample2 = new ChessDataViz.HeatMap('#heatmap-example-2', {
-						colorScale: ['cyan', 'gold'],
-						sizeScale: false,
-						accessor: {
-							color: 'w',
-							piece: 'q'
-						}
-					}, data.heatmaps.checkSquares);
-				
-					var tip = d3.tip()
-						.attr('class', 'd3-tip')
-						.offset([25, -6])
-						.html(function(d) {
-							return d;
-						});
-				
-					heatmapExample2.dispatch.on('mouseenter', tip.show);
-					heatmapExample2.dispatch.on('mouseleave', tip.hide);
-					heatmapExample2.dataContainer.call(tip);
-				
-					var wButton = d3.select('#w-btn');
-					var bButton = d3.select('#b-btn');
-				
-					wButton.on('click', function() {
-						heatmapExample2.options({
-							accessor: {
-								color: 'w',
-								piece: 'q'
-							}
-						});
-				
-						wButton.classed('button-primary', true);
-						bButton.classed('button-primary', false);
-					});
-				
-					bButton.on('click', function() {
-						heatmapExample2.options({
-							accessor: {
-								color: 'b',
-								piece: 'q'
-							}
-						});
-				
-						wButton.classed('button-primary', false);
-						bButton.classed('button-primary', true);
-					});
-				});
-				</script>
-				</div>
-
-				<hr id="openings-top">	
-		</div>
-			<div class="container">
-			<div class="row">
-					<div class="12-xl-col">
-						<h3>Evaluate</h3>
+						<h3>Middle</h3>
 						<p>How we improve...</p>
-						<p>Encoding</p>
-						<img src="img/alpha_go_zero_cheat_sheet_neg.png" alt="pipeline" style="left;">
+						<p>Training</p>
 					</div>
 				</div>
 			</div>
@@ -165,10 +164,12 @@
 				<div class="row">
 					<div class="12-xl-col">
 							<div id="op-combined">
+									<p>Move Tree</p>
+									<br>
 									<div class="cdv-openings" id="openings">
+									<div id="board"></div>
 										</div>
 										<div class="caption">
-											Openings Tree
 											<span id="op-name"></span>
 											<span id="op-percentage"></span>
 											<button id="all" class="button button-primary">All Openings</button>
@@ -176,7 +177,6 @@
 											<button id="e4" class="button">e4 Variations</button>
 											<button id="c4" class="button">c4 Variations</button>
 											<button id="Nf5" class="button">Nf5 Variations</button>
-
 										</div>
 							</div>	  
 					</div>
@@ -186,18 +186,19 @@
 								textThreshold: 0.03,
 								colors: d3.scale.ordinal().range(['cyan', 'gold', 'steelblue', 'gray'])
 							}, data.openings);
-						
-							openings.dispatch
-								.on('mouseenter', function(d, moves) {
-									d3.select('#variation').text(moves.join(' '));
-									var percent = d.value / data.openings.value * 100;
-									percent = percent.toFixed(2);
-									d3.select('#percentage').text(percent + '%');
-								})
-								.on('mouseleave', function() {
-									d3.select('#variation').text('');
-									d3.select('#percentage').text('');
-								});
+
+							var tip = d3.tip()
+									.attr('class', 'd3-tip')
+									.offset([25, -6])
+									.html(function(d) {
+										var percent = d.value / data.openings.value * 100;
+										var parent = d.value/d.parent.value * 100;
+										return(`<center>${d.value} out of 1.32M   |   ${percent.toFixed(2)}%<br>${parent.toFixed(2)}% of Parent`)
+									});
+
+							openings.dispatch.on('mouseenter', tip.show);
+							openings.dispatch.on('mouseleave', tip.hide);
+							openings.dataContainer.call(tip);
 						
 							var allButton = d3.select('#all');
 							var d4Button = d3.select('#d4');
@@ -250,19 +251,26 @@
 								openings.data(data.openings.children[2]);
 							});
 						});</script>
+					<br>
+					<br>
 				</div>
-
-				<hr id="movepaths-top">
 			</div>
 			<div class="container">
 					<div class="row">
 						<div class="12-xl-col">
-							<h3>Who we are...</h3>
-							<h3>Who we will be...</h3>
-
+						<img src="img/excerpt.png" alt="excerpt" style="padding-left: 250px">
+						</div>
+				</div>
+				<hr id="endgame">
+			</div>
+			<div class="container">
+					<div class="row">
+						<div class="12-xl-col">
+							<h3>End Game</h3>
+							<p>Who we are...</p>
+							<p>Who we will be...</p>
 							<div id="paths-combined">
 									<div class="cdv-move-paths" id="movepaths"></div>
-									<br>
 									<div id="board2"></div>
 							</div>
 						</div>

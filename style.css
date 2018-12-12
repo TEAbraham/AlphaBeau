@@ -15,9 +15,16 @@ h1, h3, p, ul{
     color: whitesmoke;
 }
 
-svg{
-    align-content: right;
+img{
+    max-width:1000px;
+    z-index: -1;
+    align-content: center !important;
 }
+
+.row{
+    align-content: justify;
+}
+
 .main-nav ul{
     background-color: black;
     color: whitesmoke;
@@ -31,7 +38,7 @@ svg{
 }
 
 .info {
-    width: 400px;
+    width: 600px;
     margin: auto;
     background-color: black;
 }
@@ -41,26 +48,24 @@ svg{
     overflow-y: scroll;
 }
 
-img{
-    max-width:1000px;
-    max-height:1000px;
-    z-index: -1;
-}
+.node circle {
+    fill: black;
+    stroke: white;
+    stroke-width: 1px;
+  }
+
+  .node text { font: 10px sans-serif; }
+    
+.node value { font: 20px sans-serif; }
+
+  .link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2px;
+  }
 
 #sticky-wrapper{
     background-color: black;
     z-index: 100;
     position:relative;
-}
-
-#rand{
-    align-content: center;
-}
-
-#minmax{
-    align-content: center;
-}
-
-#heatmap-example-1{
-    align-content: center;
 }

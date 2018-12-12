@@ -13,10 +13,10 @@ var makeRandomMove = function() {
   game.move(possibleMoves[randomIndex]);
   board.position(game.fen());
 
-  window.setTimeout(makeRandomMove, 1000);;
+  window.setTimeout(makeRandomMove, 2000);;
 };
 
-board = ChessBoard('rand', 'start');
+board = ChessBoard('rand', {moveSpeed: 'slow', position:'start'});
 
 
-window.setTimeout(makeRandomMove, 1000);
+window.setTimeout(makeRandomMove, 2000);
