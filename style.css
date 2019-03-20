@@ -48,7 +48,7 @@ img{
     overflow-y: scroll;
 }
 
-#sticky-wrapper{
+#sticky-wrapper {
     background-color: black;
     z-index: 100;
     position:relative;
