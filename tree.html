@@ -2,11 +2,12 @@
   <head>
     <meta charset="utf-8">
     <script src="https://use.fontawesome.com/2e402fe4f3.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <script data-semver="1.5.9" src="http://code.angularjs.org/1.5.9/angular.js" data-require="angular.js@1.5.x">
     </script>
     <link rel="stylesheet" href="https://unpkg.com/tachyons@4.8.1/css/tachyons.min.css"/>
     <link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
       html {
         height: 500px !important;
@@ -21,7 +22,7 @@
                    user-select: none; /* Non-prefixed version, currently
                                          supported by Chrome and Opera */
          
-         font-family: Rubik, sans-serif;
+         font-family: Raleway, sans-serif;
          background-color: black;
          color: white;
          height: 500px !important;
@@ -54,7 +55,7 @@
   </head>
   <body  ng-controller="MainCtrl as vm">
     <div class="center tc mv4"> 
-      <button ng-click="vm.refresh()" class="pv3 ph4 box-shadow-4 ttu tracked fw3 pointer bg-white ">New Values</button>
+      <button ng-click="vm.refresh()" class="button-primary">New Values</button>
     </div>
     
   <!-- load the d3.js library -->	
