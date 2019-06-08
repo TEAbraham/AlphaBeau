@@ -1,2 +1,2 @@
-# Steve
+# AlphaBeau
 machine learning for chess
