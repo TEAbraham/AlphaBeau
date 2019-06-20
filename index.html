@@ -80,8 +80,8 @@
 		<div class="container">
 				<div class="row">
 					<div class="12-xl-col">
-						<script src="ChessDataViz.js"></script>
-						<link rel="stylesheet" href="ChessDataViz.css">
+						<script src="js.js"></script>
+						<link rel="stylesheet" href="css.css">
 						<div id="hm2-combined">
 							<div id="heatmap-example-2" class="cdv-heatmap"></div>
 							<br>
@@ -211,7 +211,7 @@
 											chess.move(moves[i])
 											board.position(chess.fen());
 										};
-										d3.json('openings.json', function(err, data){
+										d3.json('eco.json', function(err, data){
 											for (i = 0; i < data.children.length; i++){
 												if (chess.fen().split(" ", 3).join(" ") == data.children[i].children['f']){
 													d3.select('#eco').text(data.children[i].children['name']);
