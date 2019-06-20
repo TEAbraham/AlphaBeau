@@ -54,4 +54,24 @@ body{background:black;}
 .op .pct{display:block;text-align:center}
 .ending,.castling{text-align:center}
 #paths-combined .move-path{stroke-width:2px}
-/*# sourceMappingURL=ChessDataViz.min.css.map */
+#board2{position: relative;;width:175px;top:40%;left:40%}
+#board2 img{padding:0}
+div[class^="square-"].active{background:#769656 !important}
+.caption{color:rgba(255,255,255,0.8);display:block;text-align:center}
+.donut{display:inline-block}.donut text{fill:rgba(255,255,255,0.8)}
+.donut .value{fill:rgba(255,255,255,0.8);font-size:34px}
+.donut .hover{opacity:0.6 !important}.donut path{transition:all 150ms}
+.chart rect{stroke:white;fill-opacity:.6;fill:steelblue}
+.bar.positive{fill:steelblue}.axis text{font:10px sans-serif;fill:rgba(255,255,255,0.8)}
+.axis path,.axis line{fill:none;stroke:rgba(255,255,255,0.8);shape-rendering:crispEdges}
+.domain,path.line{fill:none;stroke:rgba(255,255,255,0.8)}
+.line{stroke:steelblue !important;pointer-events:none}
+.d3-tip{background-color:#282c34;border:1px solid grey;color:rgba(255,255,255,0.8);padding:3px;transition:all 50ms;pointer-events:none !important;z-index:999}
+.hoverline{stroke:black}
+#wins-combined{text-align:center}
+button{-moz-appearance:none;-webkit-appearance:none;background:white;border:1px solid black;border-radius:3px;color:black;display:inline-block;font-size:14px;height:32px;line-height:24px;padding:3px 8px;position:relative;vertical-align:top;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;text-align:center;white-space:nowrap;cursor:pointer}button.chess-piece{font-size:22px}button.active{background-color:#769656;color:white}select{border:1px solid black;border-radius:3px;color:black;display:inline-block;font-size:14px;height:32px;line-height:24px;padding:3px 8px;cursor:pointer;outline:none;padding-right:36px}p{color:rgba(255,255,255,0.8)}
+.histogram{text-align:center;}
+#heatmap-selector{max-width:300px;}#material-count,#material-diff,#material-diff-200,#paths-combined{text-align:center;}
+.piece-selector{font-weight:600;font-size:11px;}
+#sunzoom path{fill-rule: evenodd;}
+#sunzoom text{fill: #fff;}
