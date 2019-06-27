@@ -4710,7 +4710,7 @@ function coerce(val) {
      * @returns {Function} Returns `func`.
      */
     var setData = (function() {
-      var count = 0,
+      var size = 0,
           lastCalled = 0;
 
       return function(key, value) {
@@ -4719,11 +4719,11 @@ function coerce(val) {
 
         lastCalled = stamp;
         if (remaining > 0) {
-          if (++count >= HOT_COUNT) {
+          if (++size >= HOT_COUNT) {
             return key;
           }
         } else {
-          count = 0;
+          size = 0;
         }
         return baseSetData(key, value);
       };
@@ -13626,7 +13626,7 @@ var Openings = (function () {
 		this.dispatch = d3.dispatch('mouseenter', 'mousemove', 'mouseleave');
 
 		this._partition = d3.layout.partition().sort(null).value(function (d) {
-			return d.count;
+			return d.size;
 		});
 
 		var radius = Math.min(this._options.width, this._options.height) / 2;
@@ -13695,7 +13695,7 @@ var Openings = (function () {
 					return parents.indexOf(node) > -1;
 				}).style('opacity', 1);
 
-				var moves = _lodash2.default.pluck(parents, 'san');
+				var moves = _lodash2.default.pluck(parents, 'title');
 				_this.dispatch.mouseenter(d, moves);
 			}).on('mousemove', function () {
 				_this.dispatch.mousemove();
@@ -13720,15 +13720,15 @@ var Openings = (function () {
 
 			arcs.exit().remove();
 
-			var sanText = this.dataContainer.selectAll('.san').data(nodes);
-			sanText.enter().append('text').attr('class', 'san').attr('dy', '6').attr('text-anchor', 'middle');
+			var sanText = this.dataContainer.selectAll('.title').data(nodes);
+			sanText.enter().append('text').attr('class', 'title').attr('dy', '6').attr('text-anchor', 'middle');
 
 			sanText.transition().duration(500).attr('transform', function (d) {
 				return 'translate(' + _this._arc.centroid(d) + ')';
 			}).text(function (d) {
 				if (d.dx < _this._options.textThreshold) return '';
 
-				return d.depth ? d.san : '';
+				return d.depth ? d.title : '';
 			});
 
 			sanText.exit().remove();
@@ -13737,7 +13737,7 @@ var Openings = (function () {
 				if (i === 0) return;
 
 				var rootParent = getParents(d)[0];
-				var color = d3.hsl(self._options.colors(rootParent.san));
+				var color = d3.hsl(self._options.colors(rootParent.title));
 
 				if (d.depth % 2 === 0) {
 					color = color.darker(0.5);

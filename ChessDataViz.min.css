@@ -22,7 +22,7 @@
 .cdv-heatmap .label{text-transform:lowercase;font-family:sans-serif;font-size:12px}
 .cdv-heatmap .heat-square{fill:red;opacity:.8}
 .cdv-openings .arc{stroke:#fff;stroke-width:.5}
-.cdv-openings .san{fill:#fff;font-size:12px;pointer-events:none}
+.cdv-openings .title{fill:#fff;font-size:12px;pointer-events:none}
 .cdv-move-paths .white rect{fill:white}
 .cdv-move-paths .white .label{fill:black}
 .cdv-move-paths .black rect{fill:black}
