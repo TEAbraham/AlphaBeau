@@ -1,155 +1,126 @@
-const format = d3.format(",d");
-const width = 960;
-const radius = width / 6;
+var board, chess = new Chess()
+  board = ChessBoard('board', {position:'start'})
 
-const arc = d3.arc()
+d3.json("Caissa.json").then(function(all){
+    var data = all.Openings
+    
+    partition = data => {
+        const root = d3.hierarchy(data)
+            .sum(d => d.children==false ? d.size : 0)
+            .sort((a, b) => b.size - a.size);
+        return d3.partition()
+            .size([2 * Math.PI, root.height + 1])
+            (root);
+        }
+        
+    var color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, data.children.length + 1));
+    
+    var format = d3.format(",d");
+    
+    var width = 900;
+    
+    var radius = width / 6;
+    
+    var arc = d3.arc()
         .startAngle(d => d.x0)
         .endAngle(d => d.x1)
         .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
         .padRadius(radius * 1.5)
         .innerRadius(d => d.y0 * radius)
         .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 1));
+    
+  const root = partition(data);
 
-const partition = data => {
-    const root = d3.hierarchy(data)
-            .sum(d => d.size)
-            .sort((a, b) => b.value - a.value);
-    return d3.partition()
-            .size([2 * Math.PI, root.height + 1])
-            (root);
-}
+  root.each(d => d.current = d);
 
-var board, chess = new Chess()
-board = ChessBoard('board', {position:'start'})
+  const svg = d3.select("#sunzoom").append("svg")
+      .attr("viewBox", [0, 0, width, width])
+      .style("font", "10px sans-serif");
 
-const {require} = new observablehq.Library;
+  const g = svg.append("g")
+      .attr("transform", `translate(${width / 2},${width / 2})`);
 
-require()('@observablehq/flare').then(data => {
-    console.log(data);
-    const root = partition(data);
-    const color = d3.scaleOrdinal().range(d3.quantize(d3.interpolateViridis, data.children.length + 1));
+  const path = g.append("g")
+      .selectAll("path")
+      .data(root.descendants().slice(1))
+      .join("path")
+      .attr("fill", d => { while (d.depth > 1) d = d.parent; return color(d.data.title); })
+      .attr("fill-opacity", d => arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0)
+      .attr("d", d => arc(d.current));
 
-    root.each(d => d.current = d);
+  path.filter(d => d.children)
+      .style("cursor", "pointer")
+      .on("click", clicked);
 
-    const svg = d3.select('#sunzoom')
-            .style("width", "100%")
-            .style("height", "auto")
-            .style("font", "10px sans-serif")
-            
+  path.append("title")
+      .text(d => `${d.ancestors().map(d => d.data.title).reverse().join("/")}\n${format(d.value)}`);
 
-    const g = svg.append("g")
-            .attr("transform", `translate(${width / 2},${width / 2})`);
+  const label = g.append("g")
+      .attr("pointer-events", "none")
+      .attr("text-anchor", "middle")
+      .style("user-select", "none")
+      .selectAll("text")
+      .data(root.descendants().slice(1))
+      .join("text")
+      .attr("dy", "0.35em")
+      .attr("fill-opacity", d => +labelVisible(d.current))
+      .attr("transform", d => labelTransform(d.current))
+      .text(d => d.data.title);
 
-    const path = g.append("g")
-            .selectAll("path")
-            .data(root.descendants().slice(1))
-            .join("path")
-            .attr("fill", d => {
-                while (d.depth > 1)
-                    d = d.parent;
-                return color(d.data.name);
-            })
-            .attr("fill-opacity", d => arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0)
-            .attr("d", d => arc(d.current));
+  const parent = g.append("circle")
+      .datum(root)
+      .attr("r", radius)
+      .attr("fill", "none")
+      .attr("pointer-events", "all")
+      .on("click", clicked);
 
-    path.filter(d => d.children)
-            .style("cursor", "pointer")
-            .on("click", clicked);
+  function clicked(p) {
+    parent.datum(p.parent || root);
 
-    path.append("title")
-            .text(d => `${d.ancestors().map(d => d.data.name).reverse().join("/")}\n${format(d.value)}`);
+    root.each(d => d.target = {
+      x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
+      x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
+      y0: Math.max(0, d.y0 - p.depth),
+      y1: Math.max(0, d.y1 - p.depth)
+    });
 
-    const label = g.append("g")
-            .attr("pointer-events", "none")
-            .attr("text-anchor", "middle")
-            .style("user-select", "none")
-            .selectAll("text")
-            .data(root.descendants().slice(1))
-            .join("text")
-            .attr("dy", "0.35em")
-            .attr("fill-opacity", d => +labelVisible(d.current))
-            .attr("transform", d => labelTransform(d.current))
-            .text(d => d.data.name);
+    const t = g.transition().duration(750);
 
-    const parent = g.append("circle")
-            .datum(root)
-            .attr("r", radius)
-            .attr("fill", "none")
-            .attr("pointer-events", "all")
-            .on("click", clicked);
+    // Transition the data on all arcs, even the ones that aren’t visible,
+    // so that if this transition is interrupted, entering arcs will start
+    // the next transition from the desired position.
+    path.transition(t)
+        .tween("data", d => {
+          const i = d3.interpolate(d.current, d.target);
+          return t => d.current = i(t);
+        })
+      .filter(function(d) {
+        return +this.getAttribute("fill-opacity") || arcVisible(d.target);
+      })
+        .attr("fill-opacity", d => arcVisible(d.target) ? (d.children ? 0.6 : 0.4) : 0)
+        .attrTween("d", d => () => arc(d.current));
 
-    function clicked(p) {
-        parent.datum(p.parent || root);
+    label.filter(function(d) {
+        return +this.getAttribute("fill-opacity") || labelVisible(d.target);
+      }).transition(t)
+        .attr("fill-opacity", d => +labelVisible(d.target))
+        .attrTween("transform", d => () => labelTransform(d.current));
+  }
+  
+  function arcVisible(d) {
+    return d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
+  }
 
-        root.each(d => d.target = {
-                x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
-                x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
-                y0: Math.max(0, d.y0 - p.depth),
-                y1: Math.max(0, d.y1 - p.depth)
-            });
+  function labelVisible(d) {
+    return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
+  }
 
-        const t = g.transition().duration(750);
+  function labelTransform(d) {
+    const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
+    const y = (d.y0 + d.y1) / 2 * radius;
+    return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
+  }
 
-        // Transition the data on all arcs, even the ones that aren’t visible,
-        // so that if this transition is interrupted, entering arcs will start
-        // the next transition from the desired position.
-        path.transition(t)
-                .tween("data", d => {
-                    const i = d3.interpolate(d.current, d.target);
-                    return t => d.current = i(t);
-                })
-                .filter(function (d) {
-                    return +this.getAttribute("fill-opacity") || arcVisible(d.target);
-                })
-                .attr("fill-opacity", d => arcVisible(d.target) ? (d.children ? 0.6 : 0.4) : 0)
-                .attrTween("d", d => () => arc(d.current));
+  return svg.node();
 
-        label.filter(function (d) {
-            return +this.getAttribute("fill-opacity") || labelVisible(d.target);
-        }).transition(t)
-                .attr("fill-opacity", d => +labelVisible(d.target))
-                .attrTween("transform", d => () => labelTransform(d.current));
-    }
-
-    function arcVisible(d) {
-        return d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
-    }
-
-    function labelVisible(d) {
-        return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
-    }
-
-    function labelTransform(d) {
-        const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
-        const y = (d.y0 + d.y1) / 2 * radius;
-        return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
-    }
 });
-
-var tip = d3.tip()
-            .attr('class', 'd3-tip')
-            .direction(function(){
-                if ((d3.mouse(d3.event.target)[1] > 0) && (d3.mouse(d3.event.target)[0] > 0)){return 'se'} 
-                else  if ((d3.mouse(d3.event.target)[1] > 0) && !(d3.mouse(d3.event.target)[0] > 0)){return 'sw'} 
-                else if (!(d3.mouse(d3.event.target)[1] > 0) && (d3.mouse(d3.event.target)[0] > 0)){return 'ne'}  
-                else {return 'nw'}
-            })
-            .html(function(d, moves) {
-                var board, chess = new Chess()
-                board = ChessBoard('board', {position:'start'})
-                for (i = 0; i < moves.length; i++){
-                    chess.move(moves[i])
-                    board.position(chess.fen());
-                };
-                d3.json('eco.json', function(err, data){
-                    for (i = 0; i < data.children.length; i++){
-                        if (chess.fen().split(" ", 3).join(" ") == data.children[i].children['f']){
-                            d3.select('#eco').text(data.children[i].children['name']);
-                        }
-                    }
-                })
-                d3.select('#variation').text(chess.pgn());
-                var percent = d.count / data.openings.count * 100;
-                var parent = d.count/d.parent.count * 100;
-                return(`<center>${d3.format('.2s')(d.count)} games out of ${d3.format('.2s')(data.openings.count)}   |   ${percent.toFixed(2)}%<br>${parent.toFixed(2)}% of parent`);
-            })

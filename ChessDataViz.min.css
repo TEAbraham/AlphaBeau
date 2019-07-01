@@ -45,7 +45,7 @@ body{background:black;}
 #hm-combined{text-align:center}
 #hm2-combined{text-align:center}
 #op-combined{position:relative;text-align:center}
-#board{position:absolute;width:200px;top:42%;left:40%}
+#board{position:absolute;width:200px;top:42%;left:40%;z-index: -1;}
 #board img{padding:0}
 #op-combined span{display:block;text-align:center;position:relative;color:rgba(255,255,255,0.8)}
 #openings{margin-bottom:15px}
