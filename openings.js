@@ -23,7 +23,7 @@ d3.json('Caissa.json', function(err, data) {
                     chess.move(moves[i])
                     board.position(chess.fen());
                 };
-                d3.json('eco.json', function(err, data){
+                d3.json('ecolan.json', function(err, data){
                     for (i = 0; i < data.children.length; i++){
                         if (chess.fen().split(" ", 3).join(" ") == data.children[i].children['f']){
                             d3.select('#eco').text(data.children[i].children['name']);

@@ -13,11 +13,12 @@ d3.json("Caissa.json").then(function(all){
             (root);
         }
         
-    var color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, data.children.length + 1));
+    var color = d3.scaleOrdinal(["#6e40aa","#417de0","#1ac7c2","#40f373","#aff05b"]);
     
     var format = d3.format(",d");
     
-    var width = 900;
+    var width = 700;
+    
     
     var radius = width / 6;
     
@@ -53,7 +54,7 @@ d3.json("Caissa.json").then(function(all){
       .on("click", clicked);
 
   path.append("title")
-      .text(d => `${d.ancestors().map(d => d.data.title).reverse().join("/")}\n${format(d.value)}`);
+      .text(d => `${d.ancestors().map(d => d.data.title).reverse().join(" ")}\n${format(d.value)}`);
 
   const label = g.append("g")
       .attr("pointer-events", "none")
@@ -105,6 +106,23 @@ d3.json("Caissa.json").then(function(all){
       }).transition(t)
         .attr("fill-opacity", d => +labelVisible(d.target))
         .attrTween("transform", d => () => labelTransform(d.current));
+
+    var board, chess = new Chess()
+        board = ChessBoard('board', {position:'start'})
+    var moves = p.ancestors().map(d => d.data.title).reverse()
+    for (i = 0; i < moves.length; i++){
+        chess.move(moves[i])
+        board.position(chess.fen());
+    };
+    d3.text("ecostd.txt").then(function(eco){
+        data = d3.dsvFormat("|").parseRows(eco)
+        for (i = 0; i < data.length; i++){
+            if (chess.pgn().split(". ").join(".") == data[i][2]){
+                d3.select('#eco').text(data[i][1]);
+            }
+        }
+    })
+    d3.select('#variation').text(chess.pgn().split(". ").join("."));
   }
   
   function arcVisible(d) {
