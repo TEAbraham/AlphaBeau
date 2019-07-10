@@ -244,8 +244,8 @@ The [Flare visualization toolkit](https://flare.prefuse.org) package hierarchy.`
   return svg.node();
 }
 );
-  main.variable(observer("data")).define("data", ["require"], function(require){return(
-require("@observablehq/flare")
+  main.variable(observer("data")).define("data", ["d3"], function(d3){return(
+d3.json("flare.json")
 )});
   main.variable(observer("tree")).define("tree", ["d3","radius"], function(d3,radius){return(
 data => d3.tree()
