@@ -1,33 +1,41 @@
-import React from 'react';
-import { Tree, treeUtil } from 'react-d3-tree';
+// import React from 'react';
+// import Tree from 'react-d3-tree';
+const React = require('react');
+const Tree = require('react-d3-tree');
+const createReactClass = require('create-react-class');
 
-const jsonSource = 'ecolan.json';
+const myTreeData = [
+  {
+    name: 'Top Level',
+    attributes: {
+      keyA: 'val A',
+      keyB: 'val B',
+      keyC: 'val C',
+    },
+    children: [
+      {
+        name: 'Level 2: A',
+        attributes: {
+          keyA: 'val A',
+          keyB: 'val B',
+          keyC: 'val C',
+        },
+      },
+      {
+        name: 'Level 2: B',
+      },
+    ],
+  },
+];
 
-constructor() {
-  super();
-
-  this.state = {
-    data: undefined,
-  };
-}
-
-componentWillMount() {
-  treeUtil.parseJSON(jsonSource)
-  .then((data) => {
-    this.setState({ data })
-  })
-  .catch((err) => console.error(err));
-}
-
-class MyComponent extends React.Component {
-  render() {
+var MyComponent = createReactClass({
+  render: function() {
     return (
-      
       <div id="treeWrapper" style={{width: '50em', height: '20em'}}>
 
-        <Tree data={this.state.data} />
+        <Tree data={myTreeData} />
 
       </div>
     );
   }
-}
+});
