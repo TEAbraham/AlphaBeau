@@ -5,20 +5,15 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Opening Sunburst</title>
     <link rel="shortcut icon" type="image/png" href="favicon_io/android-chrome-192x192.png"/>
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"> -->
-    <!-- <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css"> -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
-    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
-		<script src="/node_modules/chess.js/chess.min.js"></script>
-		<script src="lib/chessboardjs/js/chessboard-0.3.0.min.js"></script>
-    <script src="lib/jquery/jquery-3.2.1.min.js"></script>
-    <script src="//d3js.org/d3.v5.min.js"></script>
-    <!-- <script src="ChessDataViz.min.js"></script> -->
-    <link rel="stylesheet" href="ChessDataViz.min.css">
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="lib/chessboardjs/css/chessboard-0.3.0.min.css">
     <link rel="stylesheet" type="text/css" href="open.css"/>
+    <script src="//d3js.org/d3.v5.min.js"></script>
+    <script src="lib/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/node_modules/chess.js/chess.min.js"></script>
+		<script src="lib/chessboardjs/js/chessboard-0.3.0.min.js"></script>
   </head>
   <body>
     <div class="container-fluid">
@@ -37,6 +32,7 @@
           <div id="sidebar">
               <div class="cdv-openings" id="openings">
                   <div id="sideboard" class="board"></div>
+                  <button id="setStartBtn">Start Position</button>
               </div>   
           </div>
         <script src="open.js"></script>

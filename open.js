@@ -104,15 +104,22 @@ d3.json("Caissa.json").then(function(root) {
 
       var k = d3.transition()
         // .duration(750)
-        // .ease(d3.easeLinear);
 
 
       svg.transition(k)
           .tween("scale", s)
           .selectAll("path")
-            .filter(function (d) {return (d.x1 - d.x0) > 0.002})
+            .filter(function (d) {return (d.x1 - d.x0) > ((0.002)-(d.depth*0.0001))})
             .attrTween("d", function(d) { return function() { return arc(d); }; })
-          
+            .style("fill", function(d){return evenOdd(d)})
+            // .style("opacity", function (e) {
+            //   if (e.x0 >= d.x0 && e.x1 <= d.x1) {
+            //     return ((e.x1 - e.x0)/(d.x1 - d.x0) > 0.002 ? 1 : 0);
+            //   } else {
+            //     return 0;
+            //   }
+            // });
+      
       svg.transition(k)
           .tween("scale", s)
           .selectAll(".title")
@@ -165,9 +172,9 @@ d3.json("Caissa.json").then(function(root) {
 
     var parentage = (100 * d.value / (d.parent ? d.parent : d).value).toPrecision(3);
     var parentageString = d.value;
-    if (parentage < 0.1) {
-      parentageString = "< 0.1%";
-    }
+    // if (parentage < 0.1) {
+    //   parentageString = "< 0.1%";
+    // }
 
     d3.select("#percentage")
         .text(`${percentageString}`);
@@ -179,15 +186,23 @@ d3.json("Caissa.json").then(function(root) {
     updateBreadcrumbs(sequenceArray, parentageString);
 
     // Fade all the segments.
-    d3.selectAll("path")
-        .style("opacity", 0.3);
+    if (d.depth != 0){
+      d3.selectAll("path")
+          .style("opacity", 0.3);
+    
 
     // Then highlight only those that are an ancestor of the current segment.
-    svg.selectAll("path")
-        .filter(function(node) {
-                  return (sequenceArray.indexOf(node) >= 0);
-                })
-        .style("opacity", 1);
+      svg.selectAll("path")
+          .filter(function(node) {
+                    return (sequenceArray.indexOf(node) >= 0);
+                  })
+          .style("opacity", 1);
+    }
+    else{
+      d3.selectAll("path")
+          .style("opacity", function (d){return d.depth ? 1 : 0;})
+
+    }
   }
 
   // Restore everything to full opacity when moving off the visualization.
@@ -368,12 +383,15 @@ d3.json("Caissa.json").then(function(root) {
 
     // illegal move
     if (move === null) return 'snapback'
-    for (i = 0; i < root.children.length; i++){
-      if (root.children[i].depth == game.history().length && root.children[i].data.title == move.san){
-          click(root.children[i]);
+    try{
+        for (i = 0; i < root.children.length; i++){
+        if (root.children[i].depth == game.history().length && root.children[i].data.title == move.san){
+            click(root.children[i]);
+        }
       }
+    }catch(e){
+    if (move.san != root.data.title || root.children == false) return game.undo()
     }
-    if (move.san != root.data.title) return game.undo()
   }
 
   function onMouseoverSquare (square, piece) {
@@ -452,4 +470,6 @@ d3.json("Caissa.json").then(function(root) {
   }
 
   board = ChessBoard('sideboard', config)
+
+  $('#setStartBtn').on('click', function(){click(root.ancestors().pop())})
 });
