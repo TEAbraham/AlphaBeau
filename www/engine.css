@@ -19,11 +19,12 @@
 body {
   background-color: #f0f0f0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  max-width: 800px;
+  max-width: 1400px;
 }
 
 #title {
   padding: 5px 5px;
+  padding-left: 425px;
   font-size: 150%;
   font-weight: bold;
   font-family: 'Open Sans', sans-serif;
@@ -35,7 +36,9 @@ body {
 }
 
 #board {
-  width: 400px;
+  padding: 10px 10px;
+  padding-left: 350px;
+  width: 500px;
   float: left;
 }
 
@@ -68,6 +71,7 @@ body {
 
 #control {
   float: left;
+  padding-left: 100px;
   width: 100%;
 }
 
