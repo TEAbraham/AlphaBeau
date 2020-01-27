@@ -37,12 +37,12 @@ d3.json("Caissa.json").then(function(root) {
         svg.selectAll("path")
             .data(partition(root).descendants())
             .enter().append("svg:path")
-            .filter(function (d) {return (d.x1 - d.x0) > 0.002})
+            .on("mouseover", mouseover)
+            .on("click", click)
             .attr("d", arc)
             .style("fill", function(d){return evenOdd(d)})
             .style("opacity", function (d){return d.depth ? 1 : 0;})
-            .on("mouseover", mouseover)
-            .on("click", click);
+            .style("visibility", function(d){if ((d.x1 - d.x0) < (0.002)){return "hidden"}else return "visible"})
 
         svg.selectAll(".title")
             .data(partition(root).descendants())
@@ -54,9 +54,8 @@ d3.json("Caissa.json").then(function(root) {
             .attr('transform', function (d) {
               return 'translate(' + arc.centroid(d) + ')';
             })
-            .text(function (d) {
-              if ((d.x1 - d.x0) > 0.03) return d.data.title;
-            })
+            .text(function (d) {return d.data.title})
+            .style("visibility", function(d){if ((d.x1 - d.x0) < (0.03)){return "hidden"}else return "visible"})
             .on("mouseover", mouseover)
             .on("click", click);
 
@@ -94,6 +93,9 @@ d3.json("Caissa.json").then(function(root) {
 
   function click(d) {
       mouseover(d)
+      
+      var k = d3.transition()
+          // .duration(1000)
 
       s = function() {
         var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
@@ -102,39 +104,20 @@ d3.json("Caissa.json").then(function(root) {
         return function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); };
       }
 
-      var k = d3.transition()
-        // .duration(750)
-
-
       svg.transition(k)
           .tween("scale", s)
           .selectAll("path")
-            .filter(function (d) {return (d.x1 - d.x0) > ((0.002)-(d.depth*0.0001))})
             .attrTween("d", function(d) { return function() { return arc(d); }; })
             .style("fill", function(d){return evenOdd(d)})
-            // .style("opacity", function (e) {
-            //   if (e.x0 >= d.x0 && e.x1 <= d.x1) {
-            //     return ((e.x1 - e.x0)/(d.x1 - d.x0) > 0.002 ? 1 : 0);
-            //   } else {
-            //     return 0;
-            //   }
-            // });
+            .style("visibility", function(e){if ((e.x1 - e.x0)/(d.x1 - d.x0) < (0.002)){return "hidden"}else return "visible"})
       
       svg.transition(k)
           .tween("scale", s)
           .selectAll(".title")
             .attr('class', 'title')
             .attrTween('transform', function (d) { return function(){return 'translate(' + arc.centroid(d) + ')';}})
-            .text(function (d) { if ((d.x1 - d.x0) > 0.03/(d.depth+1)) return d.data.title;})
-            .attr("opacity", function (e) {
-              if (e.x0 >= d.x0 && e.x1 <= d.x1) {
-                return (e.x1 - e.x0 > 0.03/(d.depth+1) ? 1 : 0);
-              } else {
-                return 0;
-              }
-            });
+            .style("visibility", function (e){if (d.descendants().includes(e) && (e.x1 - e.x0)/(d.x1 - d.x0) > 0.03){return "visible"}else return "hidden"});
           
-            
       if (d.depth > 0){
         d3.select("#legend")
           .style("visibility", "hidden");
@@ -152,8 +135,13 @@ d3.json("Caissa.json").then(function(root) {
       for (var i = 0; i < getAncestors(d).length; i++) {
         game.move(getAncestors(d)[i].data.title)
       }
+      root = d
       onSnapEnd()
-      root = d;
+      mouseleave()
+      updateBreadcrumbs(getAncestors(d), d.value)
+      d3.select("#explanation")
+        .style("visibility", "visible");
+      d3.selectAll("path").on("mouseover", null);
   };
 
   // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
@@ -180,7 +168,7 @@ d3.json("Caissa.json").then(function(root) {
         .text(`${percentageString}`);
 
     d3.select("#explanation")
-        .style("visibility", "");
+        .style("visibility", "visible");
 
     var sequenceArray = getAncestors(d);
     updateBreadcrumbs(sequenceArray, parentageString);
@@ -382,16 +370,9 @@ d3.json("Caissa.json").then(function(root) {
     })
 
     // illegal move
-    if (move === null) return 'snapback'
-    try{
-        for (i = 0; i < root.children.length; i++){
-        if (root.children[i].depth == game.history().length && root.children[i].data.title == move.san){
-            click(root.children[i]);
-        }
-      }
-    }catch(e){
-    if (move.san != root.data.title || root.children == false) return game.undo()
-    }
+    if (move === null){return 'snapback'}
+    else if(d3.map(root.children,function(e){return e.data.title}).get(move.san) === undefined){return board.position(game.undo())}
+    else{click(d3.map(root.children,function(e){return e.data.title}).get(move.san))}
   }
 
   function onMouseoverSquare (square, piece) {
@@ -470,6 +451,6 @@ d3.json("Caissa.json").then(function(root) {
   }
 
   board = ChessBoard('sideboard', config)
-
+  $('#setBackBtn').on('click', function(){click(root.parent)})
   $('#setStartBtn').on('click', function(){click(root.ancestors().pop())})
 });

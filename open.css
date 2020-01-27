@@ -9,12 +9,8 @@ body {
 
   img{
     max-width:1000px;
-    z-index: 1;
+    z-index: 3;
     align-content: center !important;
-  }
-  
-  text{
-    z-index: 2;
   }
 
   .row{
@@ -37,11 +33,19 @@ body {
     fill: #fff;
   }
 
+  #setBackBtn{
+    margin-left: 5%;
+    margin-bottom: 1%;
+    z-index: 10;
+  }
+  
   #setStartBtn{
     float: right;
-    margin-right: 41%;
-    margin-top: 1%;
+    margin-right:  5%;
+    margin-bottom: 1%;
+    z-index: 10;
   }
+
   #explanation {
     color: #666;
     height: 5%;
@@ -63,7 +67,7 @@ body {
     position: absolute;
     margin-left: 55%;
     margin-top: 3%;
-    z-index: -2;
+    z-index: 3;
   }
   
   #sideboard {
